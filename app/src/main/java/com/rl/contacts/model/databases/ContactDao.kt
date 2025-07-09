@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.rl.contacts.model.entities.Contact
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ContactDao {
@@ -21,6 +21,6 @@ interface ContactDao {
     suspend fun delete(contact: Contact)
 
     @Query("SELECT * FROM contacts_table")
-    fun getAllContacts(): StateFlow<List<Contact>>
+    fun getAllContacts(): Flow<List<Contact>>
 
 }

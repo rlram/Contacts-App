@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -149,7 +150,13 @@ fun HomeScreen(contactViewModel: ContactViewModel) {
         ) {
             LazyColumn {
                 items(contacts) { contact ->
-                    ContactItem(contact = contact, onEditClick = {openSheet(contact)})
+                    ContactItem(
+                        contact = contact,
+                        onEditClick = {openSheet(contact)},
+                        onDeleteClick = {
+                            contactViewModel.delete(contact)
+                        }
+                    )
                 }
             }
         }
@@ -159,7 +166,7 @@ fun HomeScreen(contactViewModel: ContactViewModel) {
 
 
 @Composable
-fun ContactItem(contact: Contact, onEditClick: () -> Unit) {
+fun ContactItem(contact: Contact, onEditClick: () -> Unit, onDeleteClick: () -> Unit) {
     Column(
       modifier = Modifier
           .fillMaxWidth()
@@ -170,7 +177,9 @@ fun ContactItem(contact: Contact, onEditClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth(.7f)
+            ) {
                 Text(text = contact.name, style = MaterialTheme.typography.titleMedium)
                 Text(text = contact.phone, style = MaterialTheme.typography.bodyMedium)
             }
@@ -180,6 +189,14 @@ fun ContactItem(contact: Contact, onEditClick: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Edit,
                     contentDescription = "Edit"
+                )
+            }
+            IconButton(
+                onClick = onDeleteClick
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete"
                 )
             }
         }
